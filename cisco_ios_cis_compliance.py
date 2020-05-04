@@ -118,6 +118,7 @@ def check_aaa_authentication_enable_default():
     '''
     print('check aaa authentication enable default')
     aaa_authentication_enable = parse.find_objects('^aaa authentication enable')
+    print(aaa_authentication_enable)
     if aaa_authentication_enable != []:
         print('aaa authentication enable is in compliance\n\n')
     elif aaa_authentication_enable == []:
@@ -125,10 +126,26 @@ def check_aaa_authentication_enable_default():
 
 
 def check_line_con_0_authentication():
+    '''
+    Description:
+    Authenticates users who access the router or switch using the serial console port.
+
+    Rationale:
+    Using AAA authentication for interactive management access to the device provides
+    consistent, centralized control of your network. The default under AAA (local or network)
+    is to require users to log in using a valid user name and password. This rule applies for
+    both local and network AAA.
+
+    Audit:
+    Perform the following to determine if AAA authentication for line login is enabled:
+    If the command does not return a result for each management access method, the feature is
+    not enabled
+    hostname#show running-config | sec line | incl login authentication
+    '''
     print('check line con 0 authentication')
     line_con_auth = parse.find_objects_w_parents(parentspec='^line con', childspec='^ login auth')
+    print(line_con_auth)
     if line_con_auth != []:
-        print(line_con_auth)
         print('line con 0 authenctication is in compliance\n\n')
     else:
         print('line con 0 authenctication is NOT in compliance\n\n')
